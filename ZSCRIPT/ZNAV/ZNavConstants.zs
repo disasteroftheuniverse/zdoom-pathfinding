@@ -1,0 +1,40 @@
+enum ENavNodes
+{
+    NAV_TARGET = 1,
+    NAV_LEAP  = 2,
+    NAV_ARC = 4,
+    NAV_LAND = 8,
+    NAV_ACTION = 16,
+    NAV_OBSTACLE = 32,
+    NAV_AVOID = 64,
+    NAV_ENABLED = 128,
+}
+
+enum ENavStatus
+{
+    STAT_NOSTAT,
+    STAT_DISABLED,
+
+    STAT_NOPATH,
+    STAT_PATHVALID,
+    STAT_PATHPENDING,
+
+    STAT_WRONGGROUP,
+    STAT_NOGROUP,
+
+    STAT_LEAPPENDING,
+    STAT_LEAP,
+    STAT_FLY,
+    STAT_ARC,
+
+    STAT_ERROR,
+
+    STAT_TELEPORT,
+    STAT_TELEPORTPENDING,
+
+    STAT_HOLD,
+    STAT_HOLDPENDING,
+
+    STAT_WANDER,
+    STAT_RANDOM
+}
