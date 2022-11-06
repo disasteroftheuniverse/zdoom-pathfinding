@@ -10,6 +10,16 @@ The parser requires **[ZJSON](https://github.com/RicardoLuis0/ZJSON)**
 
 You will need to spawn an instance of `ZNavThinker` at load time in your maps.
 
+## PK3 Structure
+
+<pre> 
+<b>Root/</b>
+├── <b>ZJSON/</b> #place your navigation meshes in here
+└── <b>ZSCRIPT/</b>
+    ├── <b>ZNAV/</b> #place ZNAV contents here
+    └── <b>ZJSON/</b> #place <a href="https://github.com/RicardoLuis0/ZJSON">ZJSON</a>  here
+</pre>
+
 ## API
 
 ### ZNavNode
