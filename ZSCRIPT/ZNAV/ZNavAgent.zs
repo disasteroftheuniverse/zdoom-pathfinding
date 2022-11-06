@@ -157,10 +157,10 @@ Class ZNavAgent : Actor
                 pathtime = 0;
                 bool shouldRepath = false;
 
-                if (route.goal)
+                /*if (route.goal)
                 {
                     shouldRepath = route.goal.start( self );
-                }
+                } */
 
                 if ( shouldRepath )
                 {
@@ -264,7 +264,7 @@ Class ZNavAgent : Actor
             if ( abs(DeltaTurnAngle) > 44) movetime = 0;
     
             NextMoveAngle = clamp (DeltaTurnAngle, -45, 45) + LastMoveAngle;
-            NextMoveAngle = SnapToAngle( NextMoveAngle, snapAngle );
+            NextMoveAngle = Math.SnapToAngle( NextMoveAngle, snapAngle );
         }
 
         vector2 NextMovePos = GetNextMovePosition( NextMoveAngle, speed );
@@ -272,7 +272,7 @@ Class ZNavAgent : Actor
 
         if ( !moved )
         {
-            NextMoveAngle = SnapToAngle( Math.getAbsAngle ( pos, dest ), 45 );
+            NextMoveAngle = Math.SnapToAngle( Math.getAbsAngle ( pos, dest ), 45 );
             NextMovePos = GetNextMovePosition( NextMoveAngle, speed );
             moved = TryMove(NextMovePos, 0, false, null);
 
@@ -287,13 +287,13 @@ Class ZNavAgent : Actor
 
                 for (double i = 22.5; i < 180; i += 22.5 )
                 {
-                    NextMoveAngle = SnapToAngle( LastMoveAngle + ( i * LastTurnDir ) , 22.5 );
+                    NextMoveAngle = Math.SnapToAngle( LastMoveAngle + ( i * LastTurnDir ) , 22.5 );
                     NextMovePos = GetNextMovePosition( NextMoveAngle, speed );
                     moved = TryMove(NextMovePos, 0, false, null);
                     if ( moved )  break;
 
                     LastTurnDir *= -1.0;
-                    NextMoveAngle = SnapToAngle( LastMoveAngle + ( i * LastTurnDir ) , 22.5 );
+                    NextMoveAngle = Math.SnapToAngle( LastMoveAngle + ( i * LastTurnDir ) , 22.5 );
                     NextMovePos = GetNextMovePosition( NextMoveAngle, speed );
                     moved = TryMove(NextMovePos, 0, false, null);
                     if ( moved ) break;

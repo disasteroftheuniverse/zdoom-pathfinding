@@ -315,6 +315,11 @@ Class Math {
 		return v.x * v.x + v.y * v.y;
 	}
 
+	static SnapToAngle(double angle, double snap)
+	{
+		return floor( angle / snap) * snap;
+	}
+
 	static bool isPointInPoly (vector3 pt, in array<double> points)
 	{
 		int i = -1;
