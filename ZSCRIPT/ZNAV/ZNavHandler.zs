@@ -1,4 +1,4 @@
-class ZLevelHandler : StaticEventHandler
+class ZLevelHandler : StaticEventHandler abstract
 {
     
 	static void emit(string name = "", int arg1 = 0, int arg2 = 0, int arg3 = 0) {
