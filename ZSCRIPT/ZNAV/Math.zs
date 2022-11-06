@@ -315,7 +315,7 @@ Class Math {
 		return v.x * v.x + v.y * v.y;
 	}
 
-	static SnapToAngle(double angle, double snap)
+	static double SnapToAngle(double angle, double snap)
 	{
 		return floor( angle / snap) * snap;
 	}
