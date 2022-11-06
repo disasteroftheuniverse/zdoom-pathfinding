@@ -25,7 +25,7 @@ You will need to spawn an instance of `ZNavThinker` at load time in your maps.
 
 ## API
 
-### ZLevelHandler
+### [ZLevelHandler](/ZSCRIPT/ZNAV/ZNavHandler.zs)
 
 A base class for spawning event handlers
 
@@ -35,12 +35,12 @@ A base class for spawning event handlers
 - `onReEnter()`
 - `emit()`
 
-### ZNavHandler
+### [ZNavHandler](/ZSCRIPT/ZNAV/ZNavHandler.zs)
 
 This class runs when a map is loaded, looks for a navigation mesh in the /ZJSON directory sharing the same name as the current map
 
 
-### ZNavNode
+### [ZNavNode](/ZSCRIPT/ZNAV/ZNavMesh.zs)
 
 A node is a polygon area defined by a set of vertices, portals and a centroid.
 
@@ -53,11 +53,11 @@ A node is a polygon area defined by a set of vertices, portals and a centroid.
 - `portals` **array&lt;ZNavPortal>** List of **ZNavPortals**, pairs of vertexIDs which define edges shared by neighboring nodes.
 
 
-### ZNavGroup
+### [ZNavGroup](/ZSCRIPT/ZNAV/ZNavMesh.zs)
 
 A group is a collection of interconnected nodes. It is always possible to move between two nodes so long as they are in the same group.
 
-### ZNavMesh
+### [ZNavMesh](/ZSCRIPT/ZNAV/ZNavMesh.zs)
 
 Class containing navigation mesh data from ZJSON.
 
@@ -80,7 +80,7 @@ Returns **Vector3** Position of Mesh vertex at index.
 
 Returns **boolean** Whether or not it could find a path to destination.
 
-### ZNavAgent
+### [ZNavAgent](/ZSCRIPT/ZNAV/ZNavAgent.zs)
 
 Base class for pathfinding actors.
 
@@ -88,7 +88,7 @@ Base class for pathfinding actors.
 
 Move towards actor goal ( the actor's target, by default ).
 
-### ZNavRoute
+### [ZNavRoute](/ZSCRIPT/ZNAV/ZNavPortal.zs)
 
 An object which contains paths composed of points (**Vector3**).
 
