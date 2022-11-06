@@ -116,4 +116,9 @@ Returns **Vector3** Returns the last point in the route and removes it from the 
 
 Remove all points from route
 
+#### Special Thanks 
+
+- [Ricardo Luis](https://github.com/RicardoLuis0)
+- [Nash Muhandes](https://github.com/nashmuhandes)
+
 
