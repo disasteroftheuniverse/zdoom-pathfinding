@@ -348,7 +348,7 @@ Class ZNavThinker : Thinker
 
     play void init( string mapname )
     {
-        self.NavMesh = NavParser.BuildGraph( mapname, self );
+        self.NavMesh = ZNavParser.BuildGraph( mapname, self );
     }
 
     play void Subscribe(ZNavAgent agent)
