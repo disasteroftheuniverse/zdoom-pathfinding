@@ -12,6 +12,8 @@ The parser requires **[ZJSON](https://github.com/RicardoLuis0/ZJSON)**
 
 You will need to spawn an instance of `ZNavThinker` at load time in your maps.
 
+You will need to make your own enemy movement code. [Example usage](https://gist.github.com/disasteroftheuniverse/cf7f3012e2d8d7257663676d828112b1)
+
 ## PK3 Structure
 
 <pre><b>/</b>
