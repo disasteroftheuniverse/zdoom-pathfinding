@@ -2,7 +2,9 @@
 
 ![image](https://img.shields.io/badge/status-WIP-orange) ![image](https://img.shields.io/badge/status-concept-lightgrey)
 
-Navmesh Pathfinding for ZDoom Actors.
+![image](banner.png)
+
+Robust navigation mesh pathfinding for [ZDoom](https://zdoom.org/index).
 
 ## Prerequisites
 
