@@ -25,6 +25,21 @@ You will need to spawn an instance of `ZNavThinker` at load time in your maps.
 
 ## API
 
+### ZLevelHandler
+
+A base class for spawning event handlers
+
+##### Methods
+
+- `onEnter()`
+- `onReEnter()`
+- `emit()`
+
+### ZNavHandler
+
+This class runs when a map is loaded, looks for a navigation mesh in the /ZJSON directory sharing the same name as the current map
+
+
 ### ZNavNode
 
 A node is a polygon area defined by a set of vertices, portals and a centroid.
