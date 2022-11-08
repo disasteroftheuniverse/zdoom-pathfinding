@@ -70,7 +70,7 @@ Class ZNavMesh : ZNav
         if (!node) return false;
 		int i = -1;
 		bool c = false;
-		int l = node.vertexIDs.size() / 3;
+		int l = node.vertexIDs.size();
 		int j = l -1;
 		bool q;
 
@@ -82,7 +82,8 @@ Class ZNavMesh : ZNav
 			q = ((vtxA.y <= pt.y && pt.y < vtxB.y) || (vtxB.y <= pt.y && pt.y < vtxA.y)) && 
 			(pt.x < (vtxB.x - vtxA.x) * (pt.y - vtxA.y) / (vtxB.y - vtxA.y) + vtxA.x) && (c = !c);
 		}
-		return q;
+        
+		return c;
     }
 
     static bool isVectorInNode(vector3 pt, ZNavNode node)
@@ -128,19 +129,16 @@ Class ZNavMesh : ZNav
 
             if ( nodes[i].flags & NAV_ARC )
             {
-                //console.printf(' found arc, skipping ');
                 continue;
             }
             
             if ( nodes[i].flags & NAV_LEAP )
             {
-                //console.printf(' found leap, skipping ');
                 continue;
             }
 
             if ( nodes[i].flags & NAV_LAND )
             {
-                //console.printf(' found landing, skipping ');
                 continue;
             }
 
@@ -183,8 +181,6 @@ Class ZNavMesh : ZNav
     ZNavCell getCellFromPosition( vector3 pos )
     {
         int index = self.getIndexFromPosition(pos);
-        //console.printf ('requested index of [%i, %i], got index %i', pos.x, pos.y, index);
-
         if (index < 0 || index >= MaxCells ) return null;
         return cells[index];
     }
@@ -224,7 +220,6 @@ Class ZNavMesh : ZNav
 
         if (startNode == endNode)
         {
-            console.printf("RIGHT AT EM!");
             route.clear();
             route.push( startPos );
             route.push( endPos );
@@ -383,9 +378,10 @@ Class ZNavMesh : ZNav
 
         while ( queue.size() )
         {
+
             runaway++;
-            if (runaway > 2000) {
-                console.printf('ran away');
+            if (runaway > 2000) 
+            {
                 break;
             }
 
