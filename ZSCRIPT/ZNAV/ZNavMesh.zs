@@ -5,7 +5,7 @@
 class ZNav abstract {}
 
 /*
-    cell space partiationing adapted from
+    cell space partitioning adapted from
     https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/geometry/partitioning/BSPTree.html
 */
 Class ZNavCell : ZNav
@@ -82,7 +82,7 @@ Class ZNavMesh : ZNav
 			q = ((vtxA.y <= pt.y && pt.y < vtxB.y) || (vtxB.y <= pt.y && pt.y < vtxA.y)) && 
 			(pt.x < (vtxB.x - vtxA.x) * (pt.y - vtxA.y) / (vtxB.y - vtxA.y) + vtxA.x) && (c = !c);
 		}
-        
+
 		return c;
     }
 
