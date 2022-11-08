@@ -24,22 +24,22 @@ You will need to make your own enemy movement code. [Example usage](https://gist
 │       ├─ map01.json
 │       └─ e1m1.json
 ├── <b>ZSCRIPT/</b>
-│   ├─ <b>ZNAV/</b>            #place ZNAV contents here
+│   ├─ <b>ZNAV/</b>            #place <a href="https://github.com/disasteroftheuniverse/zdoom-pathfinding"><b>zdoom-pathfinding</b></a> zscripts here
 │   └─ <b>ZJSON/</b>           #place <a href="https://github.com/RicardoLuis0/ZJSON"><b>ZJSON</b></a> here
 └── MAPINFO.txt         #load event handlers here</pre>
 
 ## API
 
-### [ZLevelHandler](/ZSCRIPT/ZNAV/ZNavHandler.zs)
+### [ZLevelHandler](dist/ZSCRIPT/ZNAV/ZNavHandler.zs)
 
 A base class for event handlers
 
-### [ZNavHandler](/ZSCRIPT/ZNAV/ZNavHandler.zs)
+### [ZNavHandler](dist/ZSCRIPT/ZNAV/ZNavHandler.zs)
 
 This class runs when a map is loaded, looks for a navigation mesh in the /ZJSON directory sharing the same name as the current map
 
 
-### [ZNavNode](/ZSCRIPT/ZNAV/ZNavMesh.zs)
+### [ZNavNode](dist/ZSCRIPT/ZNAV/ZNavMesh.zs)
 
 A node is a polygon area defined by a set of vertices, portals and a centroid.
 
@@ -52,11 +52,11 @@ A node is a polygon area defined by a set of vertices, portals and a centroid.
 - `portals` **array&lt;ZNavPortal>** List of **ZNavPortals**, pairs of vertexIDs which define edges shared by neighboring nodes.
 
 
-### [ZNavGroup](/ZSCRIPT/ZNAV/ZNavMesh.zs)
+### [ZNavGroup](dist/ZSCRIPT/ZNAV/ZNavMesh.zs)
 
 A group is a collection of interconnected nodes. It is always possible to move between two nodes so long as they are in the same group.
 
-### [ZNavMesh](/ZSCRIPT/ZNAV/ZNavMesh.zs)
+### [ZNavMesh](dist/ZSCRIPT/ZNAV/ZNavMesh.zs)
 
 Class containing navigation mesh data from ZJSON.
 
@@ -79,7 +79,7 @@ Returns **Vector3** Position of Mesh vertex at index.
 
 Returns **boolean** Whether or not it could find a path to destination.
 
-### [ZNavAgent](/ZSCRIPT/ZNAV/ZNavAgent.zs)
+### [ZNavAgent](dist/ZSCRIPT/ZNAV/ZNavAgent.zs)
 
 Base class for pathfinding actors.
 
@@ -87,7 +87,7 @@ Base class for pathfinding actors.
 
 Move towards actor goal ( the actor's target, by default ).
 
-### [ZNavRoute](/ZSCRIPT/ZNAV/ZNavPortal.zs)
+### [ZNavRoute](dist/ZSCRIPT/ZNAV/ZNavPortal.zs)
 
 An object which contains paths composed of points (**Vector3**).
 
