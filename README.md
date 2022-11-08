@@ -36,7 +36,7 @@ A base class for event handlers
 
 ### [ZNavHandler](dist/ZSCRIPT/ZNAV/ZNavHandler.zs)
 
-This class runs when a map is loaded, looks for a navigation mesh in the /ZJSON directory sharing the same name as the current map
+This class runs when a map is loaded, looks for a navigation mesh in the `/MODELS/NAV` directory sharing the same name as the current map
 
 
 ### [ZNavNode](dist/ZSCRIPT/ZNAV/ZNavMesh.zs)
