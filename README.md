@@ -32,13 +32,7 @@ You will need to make your own enemy movement code. [Example usage](https://gist
 
 ### [ZLevelHandler](/ZSCRIPT/ZNAV/ZNavHandler.zs)
 
-A base class for spawning event handlers
-
-##### Methods
-
-- `onEnter()`
-- `onReEnter()`
-- `emit()`
+A base class for event handlers
 
 ### [ZNavHandler](/ZSCRIPT/ZNAV/ZNavHandler.zs)
 
