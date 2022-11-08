@@ -18,14 +18,14 @@ You will need to make your own enemy movement code. [Example usage](https://gist
 
 ## PK3 Structure
 
-<pre><b>/</b>
-│
-├── <b>ZJSON/</b>       #place your navigation meshes in here
-│   ├── e1m1.json
-│   └── map01.json
+<pre><b>YOUR_GAME_OR_MOD.PK3/</b>
+├── <b>MODELS/</b>       
+│   └─ <b>NAV/</b>             #place your navigation meshes in here
+│       ├─ map01.json
+│       └─ e1m1.json
 ├── <b>ZSCRIPT/</b>
-│   ├── <b>ZNAV/</b>    #place ZNAV contents here
-│   └── <b>ZJSON/</b>   #place <a href="https://github.com/RicardoLuis0/ZJSON"><b>ZJSON</b></a> here
+│   ├─ <b>ZNAV/</b>            #place ZNAV contents here
+│   └─ <b>ZJSON/</b>           #place <a href="https://github.com/RicardoLuis0/ZJSON"><b>ZJSON</b></a> here
 └── MAPINFO.txt         #load event handlers here</pre>
 
 ## API

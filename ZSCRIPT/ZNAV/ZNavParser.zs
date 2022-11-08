@@ -29,7 +29,7 @@ class ZNavParser : ZNav
 {
     static play bool CheckForZNavMesh( string mapname )
     {
-        string jsonName = string.format('zjson/%s.json', mapname);
+        string jsonName = string.format('models/nav/%s.json', mapname);
         int lump = Wads.CheckNumForFullName(jsonName);
 
         if(lump==-1)
@@ -41,7 +41,7 @@ class ZNavParser : ZNav
 
     static play ZNavMesh BuildGraph ( string mapname, ZNavThinker LevelNavigator)
     {
-        string jsonName = string.format('zjson/%s.json', mapname);
+        string jsonName = string.format('models/nav/%s.json', mapname);
         int lump = Wads.CheckNumForFullName(jsonName);
 
         JsonElementOrError data = JSON.parse( Wads.ReadLump( lump ), false );
