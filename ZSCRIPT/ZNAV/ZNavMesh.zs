@@ -243,11 +243,6 @@ Class ZNavMesh : ZNav
 
                 if (polygon.flags)
                 {
-                    /*if (polygon.helper)
-                    {
-                        route.addGoal( polygon.helper );
-                    }*/
-
                     endPos = polygon.centroid;
                     break;
                 }
