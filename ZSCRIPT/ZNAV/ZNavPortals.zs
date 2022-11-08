@@ -156,7 +156,6 @@ class ZNavChannel : ZNav
             //left
             if ( triarea2( portalApex, portalLeft, left ) <= 0.0 )
             {
-                //console.printf('area2 %i', triarea2( portalApex, portalLeft, left ));
                 if ( vequal( portalApex, portalLeft ) || triarea2( portalApex, portalRight, left ) > 0.0 )
                 {
                     portalLeft = left;

@@ -72,8 +72,8 @@ Class ZNavAgent : Actor
             }
         }
 
-        if (!Navigator) {
-            console.printf('could not get ai navigator at load time');
+        if (!Navigator) 
+        {
             return;
         }
 
@@ -156,11 +156,6 @@ Class ZNavAgent : Actor
             {
                 pathtime = 0;
                 bool shouldRepath = false;
-
-                /*if (route.goal)
-                {
-                    shouldRepath = route.goal.start( self );
-                } */
 
                 if ( shouldRepath )
                 {

@@ -154,16 +154,12 @@ Class ZNavAStar : ZNav
         group.resetNodes();
         ZNavBinaryHeap openHeap = new ('ZNavBinaryHeap');
         openHeap.push(startNode);
-        console.printf ('starting search of %i nodes in group %i', group.nodes.size(), group.groupID);
-
         while ( openHeap.size() )
         {
             ZNavNode currentNode = openHeap.pop();
-            //console.printf (' searching! ');
 
             if (currentNode == endNode)
             {
-                //console.printf (' found the end! ');
                 ZNavNode curr = currentNode;
 
                 array<ZNavNode>ret;
@@ -224,10 +220,7 @@ Class ZNavAStar : ZNav
                 }
             }
         }
-
-        console.printf (' no valid route found ');
         openHeap.destroy();
-
         return false;
     }
 }

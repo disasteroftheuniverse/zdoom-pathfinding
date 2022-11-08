@@ -90,7 +90,6 @@ class NavLeap : NavLink
 
                     if (landingnode)
                     {
-                        //console.printf(' leap chain complete! ');
                         self.link = arcnode;
                         arcnode.link = landingnode;
                         arcnode.parent = self;
