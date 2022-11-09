@@ -1,3 +1,7 @@
+/*
+    Binary heap ported from
+    https://github.com/donmccurdy/three-pathfinding/blob/main/src/BinaryHeap.js
+*/
 Class ZNavBinaryHeap : ZNav
 {
     array<ZNavNode>content;
@@ -119,7 +123,7 @@ Class ZNavBinaryHeap : ZNav
             {
                 ZNavNode child2 = content[child2N];
                 int child2Score = scorefunction(child2);
-                int swapped = (didSwap) ? elemScore : child1Score;
+                int swapped = (didSwap == false) ? elemScore : child1Score;
 
                 if (child2Score < swapped )
                 {
@@ -142,6 +146,10 @@ Class ZNavBinaryHeap : ZNav
     }
 }
 
+/*
+    AStar ported from 
+    https://github.com/donmccurdy/three-pathfinding/blob/main/src/AStar.js
+*/
 Class ZNavAStar : ZNav
 {
     static bool Search (
