@@ -1,3 +1,11 @@
+// just a basic axis aligned bounding box
+// use this to quickly check if objects are touching each other
+
+/*
+    setFromActor() - set bounding box from actor
+    intersectsAABB3() - is this box touching another box?
+*/
+
 struct ZNavAABB3
 {
     vector3 minExt;

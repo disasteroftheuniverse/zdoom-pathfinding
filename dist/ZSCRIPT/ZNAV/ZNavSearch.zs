@@ -1,6 +1,9 @@
 /*
     Binary heap ported from
     https://github.com/donmccurdy/three-pathfinding/blob/main/src/BinaryHeap.js
+    
+    this is just a utility that makes searching nodes faster
+    you should have zero reason to change this in any way
 */
 Class ZNavBinaryHeap : ZNav
 {
@@ -149,6 +152,12 @@ Class ZNavBinaryHeap : ZNav
 /*
     AStar ported from 
     https://github.com/donmccurdy/three-pathfinding/blob/main/src/AStar.js
+
+    this algorithm searches nodes to find the 
+    shortest path between two points on a nav mesh
+
+    here, it looks through all the nodes and gets a list of nodes that comprise a path from one
+    point to another
 */
 Class ZNavAStar : ZNav
 {
@@ -232,6 +241,25 @@ Class ZNavAStar : ZNav
         return false;
     }
 }
+
+/*
+    a navroute is just a list of points
+    agents can follow these points
+
+    if you have a navroute whose size is 3
+    the first point is the starting position
+    the second point is between the first and last
+    and the last is the end position
+
+    get() - returns a point on the list
+    size() - how many points there are total
+    shift() - removes the first point
+    pop() -removes the last point 
+    copy() - copy another list of points
+    clone() - create a new instance of this list and share all of its current values.
+    clear() - empty the contents of the list
+
+*/
 
 class ZNavRoute : ZNav
 {

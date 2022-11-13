@@ -12,6 +12,7 @@ Class ZNavAgent : Actor
     bool HasNavigator;
     int ZNavGroupID;
 
+    //debug - view routes
     ZNavDebugVis RouteVis;
 
     /* cell space partitioning datas*/
@@ -52,7 +53,9 @@ Class ZNavAgent : Actor
         MaxStepHeight 24;
     }
 
-    // this is just here to make enemies attack less so you can see if they follow their paths or not
+    //  this is just here to make enemies attack less so you can 
+    //  see if they follow their paths or not
+    //  dont use this in production
     bool ZNavCheckMissileRange()
     {
         if ( NerfChanceCount ) {
@@ -75,6 +78,7 @@ Class ZNavAgent : Actor
         if (UseNavigator) getNavigator();
     }
 
+    //check to see if this map has a navmesh, and if so, get a pointer to it
     void getNavigator()
     {
         ThinkerIterator it = ThinkerIterator.Create ('ZNavThinker');
@@ -101,17 +105,19 @@ Class ZNavAgent : Actor
         lastCell = curcell;
     }
 
+    //given an angle and speed, get the coordinates of my next move relative to my current position
     vector2 GetNextMoveStep(double NextMoveAngle, double speed)
     {
         return Math.SafeUnit2( RotateVector((speed, 0), NextMoveAngle) ) * speed;
     }
 
+    //given an angle and speed, get the absolute coordinates of my next move
     vector2 GetNextMovePosition (double NextMoveAngle, double speed)
     {
         return GetNextMoveStep(NextMoveAngle, speed) + Pos.XY;
     }
 
-
+    //visualize my route
     void VisualizeRoute()
     {
         if (!RouteVis) return;
@@ -127,18 +133,22 @@ Class ZNavAgent : Actor
         RouteVis.AddLinesToSpots();
     }
 
-
+    //returns a vector that I can move towards
     Vector3 Pathfind ( actor mo )
     {
         vector3 DestPos;
 
+        //set the destination point to target actor's position
         if ( mo ) DestPos = ( mo.pos.XY, mo.floorz );
 
-
+        //if we have been traveling for a while, check to see if we need a new path
         if ( pathtime >= maxPathTime )
         {
+            //check to see if the target has moved by looking up the cell that the target is in
+            //cells are basically just like the blockmap
             int CurTargetCell = NavMesh.getIndexFromPosition( DestPos );
 
+            //if the target's cell is not the same as the last time checked, request a new route
             if ( CurTargetCell != targetCell ) 
             {
                 pathtime = 0;
@@ -150,50 +160,53 @@ Class ZNavAgent : Actor
             }
         }
 
+        //if I need a new route, get a new route
         if ( needsRoute )
         {
-            targetCell = NavMesh.getIndexFromPosition( DestPos );
-            ZNavNode destnode = NavMesh.getClosestNodeInGroup ( DestPos, ZNavGroupID );
-            DestPos = destnode.constrainPoint(DestPos);
+            targetCell = NavMesh.getIndexFromPosition( DestPos ); //remember the target's current cell so I can check it later
 
-            NavMesh.findPath(ZNavGroupID, pos, DestPos, route );
+            ZNavNode destnode = NavMesh.getClosestNodeInGroup ( DestPos, ZNavGroupID );  //figure out what node I will end in
 
-            if ( route.size() )
+            DestPos = destnode.constrainPoint(DestPos); //make sure destination is on the mesh by snapping it to the node
+
+            NavMesh.findPath(ZNavGroupID, pos, DestPos, route ); //find me a route, a list of points to move thru
+
+            if ( route.size() ) //if I got a route..
             {
                 if (user_debugpath) VisualizeRoute();
 
-                PathProgress = 1;
-                needsRoute = false;
-                movetime = 0;
-                pathtime = 0;
-                maxPathTime = random(35, 55);
+                PathProgress = 1; //set my destination to the first point on the path
+                needsRoute = false; //dont request a new route yet
+                movetime = 0;   //how long i should move this direction before I can turn (0 means always turn to face movement direction)
+                pathtime = 0;   //start counting how long I am on a route
+                maxPathTime = random(35, 55);   //how long i should follow this route before I check for a new one
             }
         }
 
-        if ( route.size() )
+        if ( route.size() ) //if I have a route...
         {
-            pathtime++;
-            DestPos = route.get(PathProgress);
+            pathtime++; //count how long I've been on this route
+            DestPos = route.get(PathProgress);  //get the next position on my route
         }
         
-        //double distSq2Dest = Math.distanceToSquared2 ( pos, DestPos );
-        //double proxRadius = (radius + 32) * (radius + 32);
 
-        if ( NavMesh.CheckArrival(self, DestPos) )
+        if ( NavMesh.CheckArrival(self, DestPos) )  //if I have arrived...
         {
             
-            if ( !CheckMove(DestPos.XY, PCM_NOACTORS) )
+            if ( !CheckMove(DestPos.XY, PCM_NOACTORS) ) //if I can't actually get to my next position, request a new route
             {
                 needsRoute = true;
             }
 
-            int NextStep = PathProgress;
+            // check to see if I can advance my progess or not
+            int NextStep = PathProgress;    
             NextStep++;
 
+            // if the next step would be larger than the route size, i have reached the end of my route
             if ( NextStep >= route.size() )
             {
                 pathtime = 0;
-                bool shouldRepath = true;
+                bool shouldRepath = true;   //you can replace this with some kind of function if you want to
 
                 if ( shouldRepath )
                 {
@@ -202,14 +215,16 @@ Class ZNavAgent : Actor
                 }
 
             } else {
-                PathProgress = NextStep;
+                PathProgress = NextStep;    //if there are still more points on the route, increase the progress so I can get the next position
                 movetime = 0;
             }
         }
 
+        //return the point where I must move to next
         return DestPos;
     }
 
+    //how to move if I'm on a route
     void PathMoveTo (vector3 dest)
     {
         double LastMoveAngle = Angle;
@@ -264,6 +279,8 @@ Class ZNavAgent : Actor
         LastMovePos = pos;
     }
 
+    //how to move if I'm not on a route 
+    //(this is very similar to classic A_Chase Behavior)
     void MoveTowards ( vector3 dest, double speed = 0.0 )
     {
         if (!speed) speed = self.speed;
@@ -338,28 +355,41 @@ Class ZNavAgent : Actor
         LastMovePos = pos;
     }
 
+    //decide how to move and then move there
     void A_MoveToEx ()
     {
-
+        //if my target changed, get a new route
         if (target != null && target != LastKnownTarget)
         {
-            //console.printf(' target changed! ');
             NeedsRoute = true;
         }
 
+        //if I don't have a goal, make my goal my target
         if (target) {
             if (!goal) {
                 goal = target;
             }
         }
 
-        if ( !NavMesh ){
+        
+        if ( !NavMesh )
+        {  // if I don't have a nav mesh, move similarly to A_Chase
+
             if (goal) Destination = goal.pos;
             MoveTowards(Destination);
-        } else {
-            Destination = Pathfind ( goal );
-            PathMoveTo( Destination );
-            curCell = navmesh.getIndexFromPosition(pos);
+
+        } else {    // if I do have a nav mesh...
+            
+            Destination = Pathfind ( goal ); // ...find out what point I should move to next...
+
+            PathMoveTo( Destination );  // ... and try to move towards that point
+
+
+            //Update my current cell, so that it's easier to 
+            //find me on the map if someone searches for me
+            curCell = navmesh.getIndexFromPosition(pos);  
+            
+            //if I changed cells, inform the navmesh of the change
             if (lastCell!=curCell)
             {
                 navmesh.UpdateCell( lastCell, curCell, self);
@@ -368,7 +398,8 @@ Class ZNavAgent : Actor
         }
 
     }
-    
+
+    //just move towards another actor
     void A_MoveTowards()
     {
         if (goal) Destination = goal.pos;
@@ -376,6 +407,8 @@ Class ZNavAgent : Actor
         bInChase = false;
     }
 
+    //a clunky chase replacement for A_Chase. 
+    //create something better for your project
     virtual bool A_ZNavChase( statelabel meleestate = null, statelabel missilestate = null)
     {
         if (bInConversation) return false;
@@ -437,18 +470,37 @@ Class ZNavAgent : Actor
         return true;
     }
 
+    //on death, clean up objects
     override void Die(Actor source, Actor inflictor, int dmgflags, Name MeansOfDeath)
     {
-        if (RouteVis) { 
+        if (RouteVis) 
+        { 
             RouteVis.ClearLines();
             RouteVis.destroy();
         }
+
+        if ( route ) route.dispose();
+        if ( LeapCurve ) LeapCurve.destroy();
+        if (Navigator) Navigator.Unsubscribe(self);
 
         super.Die(source, inflictor, dmgflags, MeansOfDeath);
     }
 
 }
 
+/* 
+    if your map has a navmesh 
+    a navthinker will get created automatically
+
+    the navthinker just gets the navmesh data and gives it to agents
+    there should only ever be 1 navthinker in a level at a time
+
+    it also keeps track of all agents
+
+    do whatever you want with that information
+    there really isn't much reason to 
+    mess with this at all
+*/
 
 Class ZNavThinker : Thinker
 {   
@@ -462,6 +514,8 @@ Class ZNavThinker : Thinker
         self.NavMesh = ZNavParser.BuildGraph( mapname, self );
     }
 
+
+    //register an agent and keep track of it
     play void Subscribe(ZNavAgent agent)
     {
         if ( agents.find ( agent ) == agents.size() )
@@ -475,6 +529,7 @@ Class ZNavThinker : Thinker
         }
     }
 
+    ///deregister an agent and no longer track it
     play void Unsubscribe(ZNavAgent agent)
     {
         int agentIndex = agents.find(agent);

@@ -11,7 +11,7 @@ class NavHelper : Actor abstract
         +NOBLOCKMAP;
         +NOGRAVITY;
     }
-
+    
     void addNode( znavnode node)
     {
         self.node = node;

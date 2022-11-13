@@ -5,8 +5,11 @@
 class ZNav abstract {}
 
 /*
-    cell space partitioning adapted from
-    https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/geometry/partitioning/BSPTree.html
+    cell space partitioning 
+    this works really similar to the block map
+    the generator puts every node into a cell
+    when searching for cells, all you have to do is 
+    find a cell and check to see if it has a node in it
 */
 Class ZNavCell : ZNav
 {
@@ -37,6 +40,9 @@ Class ZNavCell : ZNav
     }
 }
 
+/*
+    a collection of nodes that you can search to get paths
+*/
 Class ZNavMesh : ZNav
 {
     /* master controller */
@@ -432,6 +438,10 @@ Class ZNavMesh : ZNav
 
 }
 
+/*
+    a group is just a collection of nodes which are all connected
+    agents cannot find paths outside of their groups
+*/
 Class ZNavGroup : ZNav
 {
     int groupID;
@@ -452,6 +462,11 @@ Class ZNavGroup : ZNav
     }
 }
 
+/*
+    navnodes are polygons that make up the nav mesh
+    when searching the mesh for a path, 
+    nodes are used to find the shortest path
+*/
 Class ZNavNode : ZNav
 {
     // network

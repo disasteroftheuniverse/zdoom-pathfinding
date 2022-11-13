@@ -29,6 +29,8 @@ Class ZNavHandler : ZLevelHandler
 {
     override void onEnter(WorldEvent e)
     {
+
+        // just check to see if this level has a nav mesh
         bool hasNavGraph = ZNavParser.CheckForNavMesh( Level.MapName );
 
         if ( hasNavGraph )

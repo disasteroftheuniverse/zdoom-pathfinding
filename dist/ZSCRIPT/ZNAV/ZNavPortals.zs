@@ -1,3 +1,15 @@
+/* 
+    a portal just describes a line which is shared between two
+    nodes. edges shared by a polygon, basically
+
+    the whole purpose of ZNavPortal and ZNavChannel
+    is to take a list of nodes, and make a smooth path 
+    between the start node and end node.
+
+    this just smooths out the path.
+    there should be no reason to modify this at all.
+*/
+
 Class ZNavPortal : ZNav
 {
     array<Int>vertexIDs;
