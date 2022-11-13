@@ -58,6 +58,10 @@ Class ZNavMesh : ZNav
     vector2 GridSize;
     int GridRes;
 
+    /* colliders */
+    ZNavAABB3 bboxSrc;
+    ZNavAABB3 bboxTarg;
+
     void init(ZNavThinker LevelNavigator)
     {
         self.master = LevelNavigator;
@@ -417,6 +421,13 @@ Class ZNavMesh : ZNav
 
         return closestPoint, closestNode;
 
+    }
+
+    bool CheckArrival (ZNavAgent mo, vector3 dest)
+    {
+        bboxSrc.setFromActor( mo );
+        bboxTarg.setFromCenterAndSize(dest + (0,0, 64), (64,64, 64));
+        return ZNavAABB3.boxesIntersect(bboxSrc, bboxTarg);
     }
 
 }

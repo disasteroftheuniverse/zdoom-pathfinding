@@ -7,12 +7,8 @@
  */
 version "4.0"
 
-#include "ZSCRIPT/ZNAV/Math.zs"
-#include "ZSCRIPT/ZNAV/NavHelper.zs"
-#include "ZSCRIPT/ZNAV/ZNavAgent.zs"
-#include "ZSCRIPT/ZNAV/ZNavConstants.zs"
-#include "ZSCRIPT/ZNAV/ZNavHandler.zs"
-#include "ZSCRIPT/ZNAV/ZNavMesh.zs"
-#include "ZSCRIPT/ZNAV/ZNavParser.zs"
-#include "ZSCRIPT/ZNAV/ZNavPortals.zs"
-#include "ZSCRIPT/ZNAV/ZNavSearch.zs"
+#include "ZSCRIPT/ZJSON/Include.zs"
+#include "ZSCRIPT/ZNAV/Include.zs"
+
+//example usage
+#include "ZSCRIPT/DOOMNAV.zs"

@@ -27,9 +27,9 @@ will create an object structured similarly to the json schema above
 
 class ZNavParser : ZNav
 {
-    static play bool CheckForZNavMesh( string mapname )
+    static play bool CheckForNavMesh( string mapname )
     {
-        string jsonName = string.format('models/nav/%s.json', mapname);
+        string jsonName = string.format('MODELS/NAV/%s.json', mapname);
         int lump = Wads.CheckNumForFullName(jsonName);
 
         if(lump==-1)

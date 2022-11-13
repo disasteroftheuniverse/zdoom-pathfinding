@@ -1,5 +1,8 @@
 Class ZNavAgent : Actor 
 {
+    bool user_debugpath;
+    actor LastKnownTarget;
+
     /*AI manager info*/
     ZNavThinker Navigator;
     ZNavMesh NavMesh;
@@ -8,6 +11,8 @@ Class ZNavAgent : Actor
     bool UseNavigator;
     bool HasNavigator;
     int ZNavGroupID;
+
+    ZNavDebugVis RouteVis;
 
     /* cell space partitioning datas*/
     int targetCell;
@@ -36,19 +41,32 @@ Class ZNavAgent : Actor
     Default
     {
         speed 16;
-        radius 16;
-        height 64;
 
         ZNavAgent.UseNavigator true;
 
         +SLIDESONWALLS;
         +SOLID;
+        +NOINFIGHTING;
 
         MaxDropOffHeight 32;
         MaxStepHeight 24;
     }
 
+    // this is just here to make enemies attack less so you can see if they follow their paths or not
+    bool ZNavCheckMissileRange()
+    {
+        if ( NerfChanceCount ) {
 
+            NerfChanceCount--;
+            return false;
+        }
+        else
+        {
+            NerfChanceCount = 32;
+            return CheckMissileRange();
+        }
+    }
+    int NerfChanceCount;
 
     override void PostBeginPlay()
     {
@@ -56,7 +74,6 @@ Class ZNavAgent : Actor
         LeapCurve = QuadraticBezierCurve.Create();
         if (UseNavigator) getNavigator();
     }
-
 
     void getNavigator()
     {
@@ -78,6 +95,7 @@ Class ZNavAgent : Actor
         }
 
         Navigator.subscribe( self );
+        RouteVis = ZNavDebugVis.Create();
         HasNavigator = true;
         CurCell = navmesh.getIndexFromPosition(pos);
         lastCell = curcell;
@@ -94,11 +112,29 @@ Class ZNavAgent : Actor
     }
 
 
+    void VisualizeRoute()
+    {
+        if (!RouteVis) return;
+
+        RouteVis.ClearLines();
+
+        for (int i = 0; i < route.size(); i++ )
+        {
+            vector3 v = route.get(i);
+            RouteVis.AddSpot(v, 1.0);
+        }
+
+        RouteVis.AddLinesToSpots();
+    }
+
+
     Vector3 Pathfind ( actor mo )
     {
         vector3 DestPos;
 
         if ( mo ) DestPos = ( mo.pos.XY, mo.floorz );
+
+
         if ( pathtime >= maxPathTime )
         {
             int CurTargetCell = NavMesh.getIndexFromPosition( DestPos );
@@ -117,7 +153,6 @@ Class ZNavAgent : Actor
         if ( needsRoute )
         {
             targetCell = NavMesh.getIndexFromPosition( DestPos );
-
             ZNavNode destnode = NavMesh.getClosestNodeInGroup ( DestPos, ZNavGroupID );
             DestPos = destnode.constrainPoint(DestPos);
 
@@ -125,6 +160,8 @@ Class ZNavAgent : Actor
 
             if ( route.size() )
             {
+                if (user_debugpath) VisualizeRoute();
+
                 PathProgress = 1;
                 needsRoute = false;
                 movetime = 0;
@@ -139,11 +176,12 @@ Class ZNavAgent : Actor
             DestPos = route.get(PathProgress);
         }
         
-        double distSq2Dest = Math.distanceToSquared2 ( pos, DestPos );
-        if ( distSq2Dest < ( (radius + 20) * (radius + 20) ) )
+        //double distSq2Dest = Math.distanceToSquared2 ( pos, DestPos );
+        //double proxRadius = (radius + 32) * (radius + 32);
+
+        if ( NavMesh.CheckArrival(self, DestPos) )
         {
             
-
             if ( !CheckMove(DestPos.XY, PCM_NOACTORS) )
             {
                 needsRoute = true;
@@ -155,7 +193,7 @@ Class ZNavAgent : Actor
             if ( NextStep >= route.size() )
             {
                 pathtime = 0;
-                bool shouldRepath = false;
+                bool shouldRepath = true;
 
                 if ( shouldRepath )
                 {
@@ -302,6 +340,13 @@ Class ZNavAgent : Actor
 
     void A_MoveToEx ()
     {
+
+        if (target != null && target != LastKnownTarget)
+        {
+            //console.printf(' target changed! ');
+            NeedsRoute = true;
+        }
+
         if (target) {
             if (!goal) {
                 goal = target;
@@ -329,6 +374,77 @@ Class ZNavAgent : Actor
         if (goal) Destination = goal.pos;
         MoveTowards(Destination);
         bInChase = false;
+    }
+
+    virtual bool A_ZNavChase( statelabel meleestate = null, statelabel missilestate = null)
+    {
+        if (bInConversation) return false;
+        if (bInChase) return false;
+        bInChase = true;
+
+        if (!target)
+        {
+            LookForPlayers (true);
+
+            if (!target)
+            {
+                bInChase = false;
+                setIdle ();
+                return false;
+            }
+        }
+
+        if (reactiontime)
+        {
+            reactiontime--;
+        }
+
+        if ( meleestate )
+        {
+            if ( CheckMeleeRange () )
+            {
+                bInChase = false;
+                bInCombat = true;
+                setStateLabel(meleestate);
+                return false;
+            }
+        }
+
+        if ( missilestate && !bJustAttacked )
+        {
+            if ( ZNavCheckMissileRange() )
+            {
+                bJustAttacked = true;
+                bInChase = false;
+                bInCombat = true;
+                setStateLabel(missilestate);
+                return false;
+            }
+        }
+
+        if (bJustAttacked) bJustAttacked = false;
+
+        A_MoveToEx();
+
+		if (random(0, 255) < 2)
+		{
+			PlayActiveSound ();
+		}
+
+        LastKnownTarget = target;
+        bInChase = false;
+
+        return true;
+    }
+
+    override void Die(Actor source, Actor inflictor, int dmgflags, Name MeansOfDeath)
+    {
+        if (RouteVis) { 
+            RouteVis.ClearLines();
+            RouteVis.destroy();
+        }
+
+        super.Die(source, inflictor, dmgflags, MeansOfDeath);
     }
 
 }
