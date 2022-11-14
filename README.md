@@ -21,7 +21,7 @@ Robust navigation mesh pathfinding for **[ZDoom](https://zdoom.org/index)**.
 
 First, generate nav mesh JSON with **[zdoom-navmesh-generator](https://github.com/disasteroftheuniverse/zdoom-navmesh-generator)**.
 
-An example of basic movement is provided, but you will likely need to tailor your movement code to suit your specific needs. The best way to learn is to see how it all works in the provided [example file](example/example.pk3).
+An example of basic movement is provided, but you will likely need to tailor your movement code to suit your specific needs. The best way to learn is to see how it all works in the provided [example file](./example/example.pk3).
 
 ## PK3 Structure
 
@@ -36,6 +36,8 @@ An example of basic movement is provided, but you will likely need to tailor you
 └── MAPINFO.txt         #load event handlers here</pre>
 
 ## API
+
+![image](types.gif)
 
 ### [ZLevelHandler](./dist/ZSCRIPT/ZNAV/ZNavHandler.zs)
 
@@ -94,7 +96,7 @@ Base class for pathfinding actors.
 
 Move towards actor goal ( the actor's goal, by default ).
 
-### [ZNavRoute](./dist/ZSCRIPT/ZNAV/ZNavPortal.zs)
+### [ZNavRoute](./dist/ZSCRIPT/ZNAV/ZNavSearch.zs)
 
 An object which contains paths composed of points (**Vector3**).
 
