@@ -4,15 +4,24 @@
 
 ![image](banner.png)
 
-Robust navigation mesh pathfinding for [ZDoom](https://zdoom.org/index).
+Robust navigation mesh pathfinding for **[ZDoom](https://zdoom.org/index)**.
+
+## Contents
+
+* **[Prerequisites](##Prerequisites)**
+* **[PK3 Structure](##PK3-Structure)**
+* **[ZNav API](##API)**
+  * [ZLevelHandler](###ZLevelHandler)
+  * [ZNavHandler](###ZNavHandler)
+  * [ZNavNode](###ZNavNode)
+  * [ZNavMesh](###ZNavMesh)
+  * [ZNavAgent](###ZNavAgent)
 
 ## Prerequisites
 
-Generate nav mesh JSON with **[zdoom-navmesh-generator](https://github.com/disasteroftheuniverse/zdoom-navmesh-generator)**
+First, generate nav mesh JSON with **[zdoom-navmesh-generator](https://github.com/disasteroftheuniverse/zdoom-navmesh-generator)**.
 
-You will need to spawn an instance of `ZNavThinker` at load time in your maps.
-
-You will need to make your own enemy movement code. [Example usage](https://gist.github.com/disasteroftheuniverse/cf7f3012e2d8d7257663676d828112b1)
+An example of basic movement is provided, but you will likely need to tailor your movement code to suit your specific needs. The best way to learn is to see how it all works in the provided [example file](example/example.pk3).
 
 ## PK3 Structure
 
@@ -22,8 +31,8 @@ You will need to make your own enemy movement code. [Example usage](https://gist
 │       ├─ map01.json
 │       └─ e1m1.json
 ├── <b>ZSCRIPT/</b>
-│   ├─ <b>ZNAV/</b>            #place <a href="https://github.com/disasteroftheuniverse/zdoom-pathfinding"><b>zdoom-pathfinding</b></a> zscripts here
-│   └─ <b>ZJSON/</b>           #place <a href="https://github.com/RicardoLuis0/ZJSON"><b>ZJSON</b></a> here
+│   ├─ <b>ZNAV/</b>            #<a href="https://github.com/disasteroftheuniverse/zdoom-pathfinding"><b>zdoom-pathfinding</b></a> zscripts here (included)
+│   └─ <b>ZJSON/</b>           #<a href="https://github.com/RicardoLuis0/ZJSON"><b>ZJSON</b></a> here (included)
 └── MAPINFO.txt         #load event handlers here</pre>
 
 ## API
@@ -56,7 +65,7 @@ A group is a collection of interconnected nodes. It is always possible to move b
 
 ### [ZNavMesh](dist/ZSCRIPT/ZNAV/ZNavMesh.zs)
 
-Class containing navigation mesh data from ZJSON.
+Class containing navigation mesh data, which includes all nodes and groups.
 
 #### getVertex
 
@@ -83,7 +92,7 @@ Base class for pathfinding actors.
 
 #### A_MoveToEx
 
-Move towards actor goal ( the actor's target, by default ).
+Move towards actor goal ( the actor's goal, by default ).
 
 ### [ZNavRoute](dist/ZSCRIPT/ZNAV/ZNavPortal.zs)
 
