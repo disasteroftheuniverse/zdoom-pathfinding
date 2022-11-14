@@ -35,9 +35,19 @@ An example of basic movement is provided, but you will likely need to tailor you
 │   └─ <b>ZJSON/</b>           #<a href="https://github.com/RicardoLuis0/ZJSON"><b>ZJSON</b></a> here (included)
 └── MAPINFO.txt         #load event handlers here</pre>
 
-## API
+## In-Depth
 
 ![image](types.gif)
+
+Here's how this all works. The [nav mesh app](https://github.com/disasteroftheuniverse/zdoom-navmesh-generator) generates a 3D model from the [TEXTMAP](https://github.com/ZDoom/gzdoom/blob/master/specs/udmf.txt) lump. This 3D model is then fed into [Recast](https://github.com/recastnavigation/recastnavigation), which generates a [navigation mesh](https://www.gamedev.net/tutorials/programming/artificial-intelligence/navigation-meshes-and-pathfinding-r4880/) from the model. The nav mesh is stored as a [JSON](https://www.json.org/json-en.html) file, which is parsed by [ZJSON](https://github.com/RicardoLuis0/ZJSON) when the level is loaded.
+
+Agents use the navigation mesh mesh to determine the best way to move towards their target. The navigation mesh is defined by a set of interconnected nodes. Each node is described by a centroid, a list of adjacent nodes, a list of shared borders between nodes ('portals'), and a list of vertices which define the outer borders of the node. 
+
+Agents use the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) to get a list of connected nodes between their position and their desired position. Once a list of nodes is created, agents use a [funnel algorithm](https://medium.com/@reza.teshnizi/the-funnel-algorithm-explained-visually-41e374172d2d) to get a route, a smooth path from the agent to its intended destination. Agents move towards each point on the route and advance to the next each time they reach one.
+
+Agents have the ability to move to their targets without getting stuck on obstacles. This behavior can be extended to craft more sophisticated AI capable of better problem-solving.
+
+## API
 
 ### [ZLevelHandler](./dist/ZSCRIPT/ZNAV/ZNavHandler.zs)
 
